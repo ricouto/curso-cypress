@@ -10,3 +10,7 @@ helloworld();
 console.log("A saudacao do momento eh " + saudacao());
 console.log();
 //incluido comentario para subir no GIT
+//TODO resolver tal coisa aqui
+//FIXME ajustar o codigo neste ponto
+//BUG verificar o motivo disso aqui!!!!
+//TAG confirmar esse ponto>>XPTO<<<
