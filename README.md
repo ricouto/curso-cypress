@@ -15,3 +15,5 @@ _ Cursos
 https://www.udemy.com/course/produtividade-vscode/ (Gratuito)
 
 https://www.udemy.com/course/testes-cypress/ (Pago)
+
+https://wcaquino.me/ (Vários cursos sobre Qualidade de SW / Automação / Desenvolvimento)
