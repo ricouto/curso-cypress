@@ -1,6 +1,6 @@
-///<reference types="cypress" />
+/// <reference types="cypress" />
 
-it.skip('A external test!', () => {
+it('A external test!', () => {
     
 });
 

@@ -13,5 +13,10 @@
     ],
     "rules": {
         "no-console":"off"
-    }
+    },
+    "linterOptions": { 
+        "exclude": [
+            "cypress/integration/**/*.js"
+        ]
+    }//fonte https://stackoverflow.com/questions/48884789/how-to-exclude-all-files-under-a-directory-in-lint-using-angular-cli
 }
