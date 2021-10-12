@@ -85,7 +85,4 @@ it('Numbers', () => {
     expect(floatNumber).to.be.equal(5.1564)
     expect(floatNumber).to.be.closeTo(5.1, 0.1)
     expect(floatNumber).to.be.above(5)
-    
-
-    
 });
