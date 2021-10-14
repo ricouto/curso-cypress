@@ -17,6 +17,14 @@ describe('Cypress basics', () => {
             .should('be.equal', 'Campo de Treinamento')
             .and('contain', 'Campo')
 
+        cy.title().then(title => {
+            console.log(title);
+        })
+
+        cy.title().should(title => { //faz a mesma coisa que o THEN
+            console.log(title);
+        })
+
         //TODO imprimir o log na Console
         //TODO escrever o title em um campo de texto  
     });
