@@ -92,15 +92,32 @@ describe('Work with basic elements', () => {
         cy.get('[data-test=dataEscolaridade]')
             .select('1graucomp')
             .should('have.value', '1graucomp')
-        
-        //TODO validar as opcoes do combo
+
+        cy.get('[data-test=dataEscolaridade] option')
+            .should('have.length', 8)
+
+        cy.get('[data-test=dataEscolaridade] option').then($arr =>{
+            const values = []
+            $arr.each(function () {
+                values.push(this.innerHTML)
+            })
+            expect(values).to.include.members(["Doutorado", "Mestrado", "Especializacao"])
+        })
     });
 
-    it('Combo Multipla', () => {
+    it.only('Combo Multipla', () => {
         cy.get('[data-testid=dataEsportes]')
-            .select(['natacao','Corrida','nada'])
+        .select(['Corrida','Karate','nada','futebol'])
         
-        //TODO  validar opcoes seleciondas do combo multiplo
+        cy.get('[data-testid=dataEsportes]').then($el => {
+            expect($el.val()).to.be.deep.equal(['Corrida','Karate','nada','futebol'])
+            expect($el.val()).to.have.length(4)
+        })
+        
+        cy.get('[data-testid=dataEsportes]')
+            .invoke('val')
+            .should('eql', ['Corrida','Karate','nada','futebol'])
+
     });
     
 });
