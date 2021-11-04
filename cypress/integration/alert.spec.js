@@ -11,11 +11,14 @@ describe('Work with alerts', () => {
     });
     
     it('Alert', () => {
+        /*
         cy.get('#alert').click()
         cy.on('window:alert', msg => {
             //console.log(msg)
             expect(msg).to.be.eq('Alert Simples')
         })
+        */
+       cy.clickAlert('#alert','Alert Simples')
     });
     
     it('Alert com mock', () => {
@@ -48,7 +51,7 @@ describe('Work with alerts', () => {
         })
     });
 
-    it.only('Prompt', () => {
+    it('Prompt', () => {
         cy.window().then(win => {
             cy.stub(win, 'prompt').returns('39')
         })
