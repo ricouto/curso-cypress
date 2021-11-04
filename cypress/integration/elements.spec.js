@@ -110,13 +110,13 @@ describe('Work with basic elements', () => {
         .select(['Corrida','Karate','nada','futebol'])
         
         cy.get('[data-testid=dataEsportes]').then($el => {
-            expect($el.val()).to.be.deep.equal(['Corrida','Karate','nada','futebol'])
+            expect($el.val()).to.be.deep.equal(['futebol','Corrida','Karate','nada'])
             expect($el.val()).to.have.length(4)
         })
         
         cy.get('[data-testid=dataEsportes]')
             .invoke('val')
-            .should('eql', ['Corrida','Karate','nada','futebol'])
+            .should('eql', ['futebol','Corrida','Karate','nada'])
 
     });
     
