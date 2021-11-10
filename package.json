@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress-xpath": "^1.6.2"
+    "cypress-xpath": "^1.6.2",
+    "number-formatter-npm": "^2.0.1"
   },
   "devDependencies": {
     "cypress": "^8.6.0",
