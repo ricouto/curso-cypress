@@ -3,6 +3,7 @@ import pageLogon from '../fixtures/userSeuBarriga.json'
 import data from '../fixtures/userSeuBarrigaData.json'
 import loc from '../support/locators'
 import '../support/commandsConta'
+import '../support/commandsMovi'
 
 describe('Teste Funcional Seu Barriga', () => {
 
@@ -17,13 +18,9 @@ describe('Teste Funcional Seu Barriga', () => {
     it('Inserir Conta', () => {
         //acessar contas
         cy.acessarMenuConta()
-        //cy.xpath(loc.MENU.SETTINGS).click()
-        //cy.get(loc.MENU.CONTAS).click()
 
         //preencher conta
         cy.informarNomeConta(data.contaInserida)
-        //cy.get(loc.CONTA.NOMECONTA).type(data.contaInserida)
-        //cy.get(loc.CONTA.BTN_CONTA).click()
         
         //assertion conta
         cy.xpath(loc.MESSAGE).should('contain', data.contaMsgSucesso)
@@ -32,16 +29,12 @@ describe('Teste Funcional Seu Barriga', () => {
     it('Alterar Conta', () => {
         //acessar contas
         cy.acessarMenuConta()
-        //cy.xpath(loc.MENU.SETTINGS).click()
-        //cy.get(loc.MENU.CONTAS).click()
 
         //localizar a conta
         cy.xpath("//table//td[contains(.,'"+data.contaInserida+"')]/following-sibling::td/i[1]").click()
 
         //alterar a conta
         cy.informarNomeConta(data.contaAlterada)
-        //cy.get(loc.CONTA.NOMECONTA).clear().type(data.contaAlterada)
-        //cy.get(loc.CONTA.BTN_CONTA).click()
         
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.contaMsgAlterada)
@@ -51,13 +44,9 @@ describe('Teste Funcional Seu Barriga', () => {
     it('Inserir Conta Repetida', () => {
         //acessar contas
         cy.acessarMenuConta()
-        //cy.xpath(loc.MENU.SETTINGS).click()
-        //cy.get(loc.MENU.CONTAS).click()
 
         //informanda conta repetida
         cy.informarNomeConta(data.contaAlterada)
-        //cy.get(loc.CONTA.NOMECONTA).clear().type(data.contaAlterada)
-        //cy.get(loc.CONTA.BTN_CONTA).click()
         
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.contaMsgRepetida)
@@ -86,13 +75,10 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.get(':nth-child(1) > :nth-child(2) > .form-control').clear().type(dataFormatada).debug()
         */
         //preenchendo o form da Movimentacao
-        cy.get(loc.MOVIMENTACAO.TXTDESC).type(data.movDescricaoPgto)
-        cy.get(loc.MOVIMENTACAO.TXTVALOR).type(data.moviValorInserido)
-        cy.get(loc.MOVIMENTACAO.TXTENVOLVIDO).type("Alunos do curso de Cypress")
-        cy.get(loc.MOVIMENTACAO.COMBO_CONTA).select(data.contaAlterada)
+        cy.preencherMovimentacao(data.movDescricaoPgto, data.moviValorInserido,
+             "Alunos do curso de Cypress", data.contaAlterada)
 
-        cy.get(loc.MOVIMENTACAO.BTN_SUCESSO).click()
-        cy.get(loc.MOVIMENTACAO.BTN_SALVAR_MOV).click()
+       cy.btnSucessoSalvarMovimentacao()
         
         //assertions na msg da Movimentacao
         cy.xpath(loc.MESSAGE).should('contain', data.moviMsgSucesso)
@@ -138,13 +124,10 @@ describe('Teste Funcional Seu Barriga', () => {
         */
         //preenchendo o form da Movimentacao com valor para baixa
         cy.get(loc.MOVIMENTACAO.BTN_BAIXA).click()
-        cy.get(loc.MOVIMENTACAO.TXTDESC).type(data.movDescricaoBaixaPgto)
-        cy.get(loc.MOVIMENTACAO.TXTVALOR).type(data.moviValorInseridoBaixa)
-        cy.get(loc.MOVIMENTACAO.TXTENVOLVIDO).type("Alunos do curso de Cypress")
-        cy.get(loc.MOVIMENTACAO.COMBO_CONTA).select(data.contaAlterada)
+        cy.preencherMovimentacao(data.movDescricaoBaixaPgto, data.moviValorInseridoBaixa,
+            "Alunos do curso de Cypress", data.contaAlterada)
 
-        cy.get(loc.MOVIMENTACAO.BTN_SUCESSO).click()
-        cy.get(loc.MOVIMENTACAO.BTN_SALVAR_MOV).click()
+        cy.btnSucessoSalvarMovimentacao()
         
         //assertions na msg da Movimentacao
         cy.xpath(loc.MESSAGE).should('contain', data.moviMsgSucesso)
