@@ -19,7 +19,9 @@ const locators = {
 
     CONTA:{
         NOMECONTA: '.form-control',
-        BTN_CONTA: '.btn'
+        BTN_CONTA: '.btn',
+        FN_XP_PESQUISA_CONTA: nomeConta => `//table//td[contains(.,'${nomeConta}')]/following-sibling::td/i[1]`,
+        FN_XP_EXCLUIR_CONTA: nomeContaExcluir => `//table//td[contains(.,'${nomeContaExcluir}')]/following-sibling::td/i[2]`
     },
 
     MOVIMENTACAO:{
@@ -30,7 +32,8 @@ const locators = {
         COMBO_CONTA: ':nth-child(3) > :nth-child(2) > .form-control',
         BTN_BAIXA: '.btn-secondary',
         BTN_SUCESSO: '.col-2 > .btn',
-        BTN_SALVAR_MOV: '.btn-primary'
+        BTN_SALVAR_MOV: '.btn-primary',
+        FN_XP_EXCLUIR_MOV: nomeMovimentacao => `//span[contains(.,'${nomeMovimentacao}')]/../../../div/i[1]`
     },
 
     MESSAGE: "//div[@class='toast-message']"

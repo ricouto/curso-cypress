@@ -30,8 +30,8 @@ describe('Teste Funcional Seu Barriga', () => {
         //acessar contas
         cy.acessarMenuConta()
 
-        //localizar a conta
-        cy.xpath("//table//td[contains(.,'"+data.contaInserida+"')]/following-sibling::td/i[1]").click()
+        //localizar a conta passando o valor usando a funcao no locators
+        cy.xpath(loc.CONTA.FN_XP_PESQUISA_CONTA(data.contaInserida)).click()
 
         //alterar a conta
         cy.informarNomeConta(data.contaAlterada)
@@ -57,23 +57,6 @@ describe('Teste Funcional Seu Barriga', () => {
         //acessar movimentacao
         cy.get(loc.MOVIMENTACAO.BTN_MOV).click()
 
-        //TODO pensar na formar de fazer / limpar o campo!
-        /*
-        function adicionaZero(numero){
-            if (numero <= 9) 
-                return "0" + numero;
-            else
-                return numero; 
-        }
-
-        let data = new Date();
-        let dataFormatada = ((adicionaZero(data.getDate().toString())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear());
-
-        console.log(dataFormatada);
-        cy.xpath("//input[@data-test='data-transacao']")
-
-        cy.get(':nth-child(1) > :nth-child(2) > .form-control').clear().type(dataFormatada).debug()
-        */
         //preenchendo o form da Movimentacao
         cy.preencherMovimentacao(data.movDescricaoPgto, data.moviValorInserido,
              "Alunos do curso de Cypress", data.contaAlterada)
@@ -92,36 +75,12 @@ describe('Teste Funcional Seu Barriga', () => {
         var valorFormatado = recebeValorTabela.toLocaleString("pt-br",{style: 'currency', currency: 'BRL'});
         //console.log(valorFormatado);
         cy.xpath("//table//td[contains(.,'"+data.contaAlterada+"')]//following-sibling::td").should('have.text', valorFormatado)
-
     });
 
     it('Calculo do Saldo apos Movimentacao Conta Cypress', () => {
-        //armazendo o valor da tabela antes do calculo
-        //cy.get(':nth-child(1) > .nav-link > .fas').click()
-        //var valorMovimentacao = cy.xpath("//table//td[contains(.,'"+this.data.contaAlterada+"')]//following-sibling::td").its(0)
-        //console.log("valor : " + valorMovimentacao);
-
-        //console.log("valor : " + valorMovimentacao2);
         //acessar movimentacao
         cy.get(loc.MOVIMENTACAO.BTN_MOV).click()
 
-        //TODO pensar na formar de fazer / limpar o campo!
-        /*
-        function adicionaZero(numero){
-            if (numero <= 9) 
-                return "0" + numero;
-            else
-                return numero; 
-        }
-
-        let data = new Date();
-        let dataFormatada = ((adicionaZero(data.getDate().toString())) + "/" + ((data.getMonth() + 1)) + "/" + data.getFullYear());
-
-        console.log(dataFormatada);
-        cy.xpath("//input[@data-test='data-transacao']")
-
-        cy.get(':nth-child(1) > :nth-child(2) > .form-control').clear().type(dataFormatada).debug()
-        */
         //preenchendo o form da Movimentacao com valor para baixa
         cy.get(loc.MOVIMENTACAO.BTN_BAIXA).click()
         cy.preencherMovimentacao(data.movDescricaoBaixaPgto, data.moviValorInseridoBaixa,
@@ -154,12 +113,14 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.get(loc.MENU.EXTRATO).click()
 
         //localizar a movimentacao e remover
-        cy.xpath("//span[contains(.,'"+data.movDescricaoBaixaPgto+"')]/../../../div/i[1]").click()
+        cy.xpath(loc.MOVIMENTACAO.FN_XP_EXCLUIR_MOV(data.movDescricaoBaixaPgto)).click()
+        
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.moviMsgExluida)
 
         //localizar a movimentacao e remover
-        cy.xpath("//span[contains(.,'"+data.movDescricaoPgto+"')]/../../../div/i[1]").click()
+        cy.xpath(loc.MOVIMENTACAO.FN_XP_EXCLUIR_MOV(data.movDescricaoPgto)).click()
+       
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.moviMsgExluida)
         
@@ -167,9 +128,6 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.xpath(loc.MENU.HOME).click()
         cy.xpath("//table//td[contains(.,'"+data.contaAlterada+"')]").should('contain', '- Alterada')
         cy.xpath("//table//td[contains(.,'Total')]").should('have.text', 'Total')
-        //TODO verificar!
-        //cy.xpath("//table//td[contains(.,'Total')]//following-sibling::td").should('have.text', 'R$ 0,00')
-        
     });   
 
     it('Excluir Conta Alterada', () => {
@@ -178,7 +136,7 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.get(loc.MENU.CONTAS).click()
 
         //localizar a conta e remover
-        cy.xpath("//table//td[contains(.,'"+data.contaAlterada+"')]/following-sibling::td/i[2]").click()
+        cy.xpath(loc.CONTA.FN_XP_EXCLUIR_CONTA(data.contaAlterada)).click()
 
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.contaMsgExluida)
