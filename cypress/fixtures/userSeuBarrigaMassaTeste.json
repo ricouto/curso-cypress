@@ -1,0 +1,22 @@
+{
+    "contaInserida": "Conta para Teste Cypress",
+    "contaNomeAntesAlterar" : "Conta para alterar",
+    "contaAlterada" : "Conta para alterar - Alterada",
+    "contaRepetida" : "Conta mesmo nome",
+    "contaParaMovimentacao" : "Conta para movimentacoes",
+    "contaParaExclusao" : "Conta para extrato",
+    "contaParaBaixa" : "Conta para saldo",
+    "contaMsgSucesso": "Conta inserida com sucesso!",
+    "contaMsgAlterada": "Conta atualizada com sucesso!",
+    "contaMsgRepetida": "Erro: Error: Request failed with status code 400",
+    "contaMsgExluida": "Conta excluída com sucesso!",
+    "movDescricaoPgto": "Pagamento da conta Cypress",
+    "movDescricaoBaixaPgto": "Movimentacao para exclusao",
+    "movDescricaoBaixaPgtoMassa": "Movimentacao para extrato",
+    "moviValorInserido": 1565.32,
+    "moviValorInseridoBaixa": 534.00,
+    "moviValorInseridoBaixado": 0.00,
+    "moviMsgSucesso": "Movimentação inserida com sucesso!",
+    "moviMsgExluida": "Movimentação removida com sucesso!",
+    "logoff": "Até Logo!"
+}

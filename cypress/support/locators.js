@@ -9,12 +9,17 @@ const locators = {
         SETTINGS: "//a[@data-test='menu-settings']",
         SAIR: '[href="/logout"]',
         CONTAS: '[href="/contas"]',
+        RESET: '[href="/reset"]',
         HOME: "//a[@data-test='menu-home']",
         EXTRATO: ':nth-child(3) > .nav-link > .fas'
     },
 
     HOME:{
         TXTCONTA: "//table//th[contains(.,'Conta')]"
+    },
+
+    EXTRATO:{
+        LINHAS: "//div/li"
     },
 
     CONTA:{
