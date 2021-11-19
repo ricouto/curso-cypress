@@ -46,3 +46,20 @@ Cypress.Commands.add('logoff', (message) => {
         cy.get(loc.MENU.SAIR).click()
         cy.xpath(loc.MESSAGE).should('contain', message)
 })
+
+Cypress.Commands.add('getToken', (user, password) =>{
+    cy.request({
+        method: 'POST',
+        url: 'https://barrigarest.wcaquino.me/signin',
+        body:{
+            email: user,
+            redirecionar: false,
+            senha: password
+        }
+    })
+    .its('body.token').should('not.be.empty')
+    //.then(res => console.log(res))
+    .then(token => {
+        return token
+    })
+})
