@@ -50,7 +50,7 @@ Cypress.Commands.add('logoff', (message) => {
 Cypress.Commands.add('getToken', (user, password) =>{
     cy.request({
         method: 'POST',
-        url: 'https://barrigarest.wcaquino.me/signin',
+        url: '/signin',
         body:{
             email: user,
             redirecionar: false,
@@ -63,3 +63,28 @@ Cypress.Commands.add('getToken', (user, password) =>{
         return token
     })
 })
+
+Cypress.Commands.add('resetRest', (token) => {
+    cy.request({
+        method: 'GET',
+        url:'/reset',
+        headers: { Authorization: `JWT ${token}` }
+    }).its('status').should('be.equal', 200)
+})
+
+Cypress.Commands.add('getContaByName', (token,name) =>{
+    cy.request({
+        method: 'GET',
+        url:'/contas',
+        headers: {
+            Authorization: `JWT ${token}`
+        },
+        qs:{
+            nome: name
+        }
+    }).then(res => {
+        return res.body[0].id
+    })
+})
+
+

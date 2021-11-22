@@ -1,6 +1,8 @@
 /// <reference types="cypress-xpath" />
+
 import pageLogon from '../fixtures/userSeuBarriga.json'
 import data from '../fixtures/userSeuBarrigaData.json'
+import '../support/commands'
 import loc from '../support/locators'
 import '../support/commandsConta'
 import '../support/commandsMovi'
