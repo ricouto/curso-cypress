@@ -16,17 +16,10 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
         cy.resetRest(token)
     });
 
-    afterEach(() => {
-        //cy.logoff(data.logoff)
-    });
-
     it('Inserir Conta', () => {
         cy.request({
             method: 'POST',
             url: '/contas',
-            headers: {
-                Authorization: `JWT ${token}`
-            },
             body: {
                 nome: 'Conta enviada pelo Rest'
             }
@@ -44,22 +37,9 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
     it('Alterar Conta', () => {
         cy.getContaByName(token, 'Conta para alterar')
             .then(contaID => {
-                /*cy.request({
-                    method: 'GET',
-                    url:'/contas',
-                    headers: {
-                        Authorization: `JWT ${token}`
-                    },
-                    qs:{
-                        nome: 'Conta para alterar'
-                    }
-                }).then(res => {*/
                 cy.request({
                     method: 'PUT',
                     url: `/contas/${contaID}`,
-                    headers: {
-                        Authorization: `JWT ${token}`
-                    },
                     body: {
                         nome: 'Conta alterada via Rest'
                     }
@@ -73,9 +53,6 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
         cy.request({
             method: 'POST',
             url: '/contas',
-            headers: {
-                Authorization: `JWT ${token}`
-            },
             body: {
                 nome: 'Conta mesmo nome'
             },
@@ -99,9 +76,6 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
                 cy.request({
                     method: 'POST',
                     url: '/transacoes',
-                    headers: {
-                        Authorization: `JWT ${token}`
-                    },
                     body: {
                         conta_id: contaID,
                         data_pagamento: dayjs().add(1, 'day').format('DD/MM/YYYY'),
@@ -122,10 +96,7 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
     it('Saldo apos Movimentacao Conta Cypress', () => {
         cy.request({
             url: '/saldo',
-            method: 'GET',
-            headers: {
-                Authorization: `JWT ${token}`
-            }
+            method: 'GET'
         }).then(res => {
             //console.log(res)
             let saldoConta
@@ -140,9 +111,6 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
         cy.request({
             url: '/transacoes',
             method: 'GET',
-            headers: {
-                Authorization: `JWT ${token}`
-            },
             qs: {
                 descricao: 'Movimentacao 1, calculo saldo'
             }
@@ -151,9 +119,6 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
             cy.request({
                 url: `/transacoes/${res.body[0].id}`,
                 method: 'PUT',
-                headers: {
-                    Authorization: `JWT ${token}`
-                },
                 body: {
                     conta_id: res.body[0].conta_id,
                     data_pagamento: dayjs().add(1, 'day').format('DD/MM/YYYY'),
@@ -168,10 +133,7 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
 
         cy.request({
             url: '/saldo',
-            method: 'GET',
-            headers: {
-                Authorization: `JWT ${token}`
-            }
+            method: 'GET'
         }).then(res => {
             //console.log(res)
             let saldoConta
@@ -184,30 +146,20 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
         })
     })
 
-    it.only('Excluir Movimentacao', () => {
+    it('Excluir Movimentacao', () => {
         cy.request({
             url: '/transacoes',
             method: 'GET',
-            /*headers: {
-                Authorization: `JWT ${token}`
-            },*/
             qs: {
                 descricao: 'Movimentacao para exclusao'
             }
         }).then(res => { 
             cy.request({
                 url: `/transacoes/${res.body[0].id}`,
-                method: 'DELETE',
-                /*headers: { 
-                    Authorization: `JWT ${token}`
-                }*/
+                method: 'DELETE'
             }).its('status').should('be.equal', 204)
 
         })
-
-    });
-
-    it('Excluir Conta Alterada', () => {
 
     });
 })
