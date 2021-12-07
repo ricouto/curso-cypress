@@ -47,7 +47,7 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.logoff(data.logoff)
     });*/
 
-    it.only('Inserir Conta', () => {
+    it('Inserir Conta', () => {
         //acessar contas
         cy.route({
             method: 'GET',
@@ -67,7 +67,7 @@ describe('Teste Funcional Seu Barriga', () => {
                         usuario_id: 25940
                     }
                 ]
-        }).as('contas')
+        }).as('Contas')
 
         cy.route({
             method: 'POST',
@@ -75,8 +75,34 @@ describe('Teste Funcional Seu Barriga', () => {
             response: [
                 {id:3,nome:"Conta de Teste","visivel":true,"usuario_id":25940}//,{"id":2,"nome":"Banco","visivel":true,"usuario_id":25940}]
             ]
-        })
+        }).as('SaveConta')
         cy.acessarMenuConta()
+
+        cy.route({
+            method: 'GET',
+            url: '/contas',
+            response:
+                [
+                    {
+                        id: 1,
+                        nome: "Carteira",
+                        visivel: true,
+                        usuario_id: 25940
+                    },
+                    {
+                        id: 2,
+                        nome: "Banco",
+                        visivel: true,
+                        usuario_id: 25940
+                    },
+                    {
+                        id: 3,
+                        nome: "Conta de Teste",
+                        visivel: true,
+                        usuario_id: 25940
+                    }
+                ]
+        }).as('ContasSave')
 
         //preencher conta
         cy.informarNomeConta(data.contaInserida)
@@ -85,19 +111,53 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.xpath(loc.MESSAGE).should('contain', data.contaMsgSucesso)
     });
 
-    it('Alterar Conta', () => {
+    it.only('Alterar Conta', () => {
+
         //acessar contas
+        cy.route({
+            method: 'GET',
+            url: '/contas',
+            response:
+                [
+                    {
+                        id: 1,
+                        nome: "Carteira",
+                        visivel: true,
+                        usuario_id: 25940
+                    },
+                    {
+                        id: 2,
+                        nome: "Banco",
+                        visivel: true,
+                        usuario_id: 25940
+                    }
+                ]
+        }).as('AlterarConta')
+
+        cy.route({
+            method: 'PUT',
+            url: '/contas/**',
+            response: {
+                id: 2,
+                nome: data.contaAlterada,
+                visivel: true,
+                usuario_id: 25940
+            }
+        })
+        
         cy.acessarMenuConta()
 
         //localizar a conta passando o valor usando a funcao no locators
-        cy.xpath(loc.CONTA.FN_XP_PESQUISA_CONTA(data.contaInserida)).click()
+        cy.xpath(loc.CONTA.FN_XP_PESQUISA_CONTA("Banco")).click()
+        //cy.xpath(loc.CONTA.FN_XP_PESQUISA_CONTA(data.contaNomeAntesAlterar)).click()
 
         //alterar a conta
         cy.informarNomeConta(data.contaAlterada)
 
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.contaMsgAlterada)
-        cy.xpath("//table//td[contains(.,'- Alterada')]).should('contain', data.contaAlterada")
+        //cy.xpath("//table//td[contains(.,'- Alterada')]").should('contain', data.contaAlterada)
+        cy.xpath("//table//td[contains(.,'Banco')]").should('contain', "Banco")
     });
 
     it('Inserir Conta Repetida', () => {
