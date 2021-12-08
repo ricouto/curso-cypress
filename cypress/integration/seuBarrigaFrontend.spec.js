@@ -256,6 +256,21 @@ describe('Teste Funcional Seu Barriga', () => {
         //assertions na msg da Movimentacao
         cy.xpath(loc.MESSAGE).should('contain', data.moviMsgSucesso)
 
+        cy.route({
+            method: 'GET',
+            url: '/saldo',
+            response: [{
+                conta_id: 1000,
+                conta: "Carteira",
+                saldo: 5100.00
+            },
+            {
+                conta_id: 1000,
+                conta: "Banco",
+                saldo: 10000000.00
+            }]
+        }).as('SaldoFinal')
+
         //validando na pagina inicial a Conta e Valor inseridos
         cy.xpath(loc.MENU.HOME).click()
         //cy.xpath("//table//td[contains(.,' + data.contaAlterada + ')]).should('have.text', data.contaAlterada")
@@ -263,7 +278,7 @@ describe('Teste Funcional Seu Barriga', () => {
         //console.log(parseFloat(this.data.moviValorInserido));
 
         //faz o calculo valor pago menos da baixa
-        var resultPagamento = 100 //data.moviValorInserido - data.moviValorInseridoBaixa
+        var resultPagamento = 5100 //data.moviValorInserido - data.moviValorInseridoBaixa
         //console.log(resultPagamento.toLocaleString(pt-br,{style: 'currency', currency: 'BRL'}));
 
         //var recebeValorJson = this.data.moviValorInseridoBaixa
