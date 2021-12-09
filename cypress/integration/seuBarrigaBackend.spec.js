@@ -184,7 +184,7 @@ describe('Teste do Backend - APIs do Seu Barriga', () => {
         })
     })
 
-    it.only('Excluir Movimentacao', () => {
+    it('Excluir Movimentacao', () => {
         cy.request({
             url: '/transacoes',
             method: 'GET',

@@ -222,7 +222,7 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.xpath("//table//td[contains(.,'Carteira')]//following-sibling::td").should('have.text', valorFormatado)
     });
 
-    it.only('Calculo do Saldo apos Movimentacao Conta Cypress', () => {
+    it('Calculo do Saldo apos Movimentacao Conta Cypress', () => {
 
         cy.route({
             method: 'POST',
@@ -290,39 +290,54 @@ describe('Teste Funcional Seu Barriga', () => {
         });
 
     it('Excluir Movimentacao', () => {
+        cy.route({
+            method: 'DELETE',
+            url: '/transacoes/**',
+            response: {},
+            status: 204
+
+        }).as('deleteMov')
         //acessar movimentacoes
         cy.get(loc.MENU.EXTRATO).click()
 
         //localizar a movimentacao e remover
-        cy.xpath(loc.MOVIMENTACAO.FN_XP_EXCLUIR_MOV(data.movDescricaoBaixaPgto)).click()
+        cy.xpath(loc.MOVIMENTACAO.FN_XP_EXCLUIR_MOV(data.movDescricaoRemover)).click()
 
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.moviMsgExluida)
 
         //localizar a movimentacao e remover
-        cy.xpath(loc.MOVIMENTACAO.FN_XP_EXCLUIR_MOV(data.movDescricaoPgto)).click()
+        //cy.xpath(loc.MOVIMENTACAO.FN_XP_EXCLUIR_MOV(data.movDescricaoPgto)).click()
 
         //assertions conta
-        cy.xpath(loc.MESSAGE).should('contain', data.moviMsgExluida)
+        //cy.xpath(loc.MESSAGE).should('contain', data.moviMsgExluida)
 
         //verificando se esta zerado valor na home
         cy.xpath(loc.MENU.HOME).click()
-        cy.xpath("//table//td[contains(.,' + data.contaAlterada + ')]).should('contain', '- Alterada'")
-        cy.xpath("//table//td[contains(.,'Total')]).should('have.text', 'Total'")
+        cy.xpath("//table//td[contains(.,'Carteira')]").should('have.text', 'Carteira')
+        //cy.xpath("//table//td[contains(.,'Carteira')]").should('contain', '- Alterada')
+        cy.xpath("//table//td[contains(.,'Total')]").should('have.text', 'Total')
     });
 
     it('Excluir Conta Alterada', () => {
+        cy.route({
+            method: 'DELETE',
+            url: '/contas/**',
+            response: {},
+            status: 204
+
+        }).as('deleteConta')
         //acessar contas
         cy.xpath(loc.MENU.SETTINGS).click()
         cy.get(loc.MENU.CONTAS).click()
 
         //localizar a conta e remover
-        cy.xpath(loc.CONTA.FN_XP_EXCLUIR_CONTA(data.contaAlterada)).click()
+        cy.xpath(loc.CONTA.FN_XP_EXCLUIR_CONTA(data.contaARemover)).click()
 
         //assertions conta
         cy.xpath(loc.MESSAGE).should('contain', data.contaMsgExluida)
 
         //verificando se existe a conta
-        cy.xpath("//table//td[contains(.,' + data.contaAlterada + ')]).should('not.exist', data.contaAlterada")
+        cy.xpath("//table//td[contains(.,' + data.contaARemover + ')]").should('not.exist', data.contaARemover)
     });
 })
