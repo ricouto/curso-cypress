@@ -287,7 +287,7 @@ describe('Teste Funcional Seu Barriga', () => {
         cy.xpath("//table//td[contains(.,'Carteira')]//following-sibling::td")
             .should('have.text', resultPagamento.toLocaleString("pt-br", { style: 'currency', currency: 'BRL' }))
 
-        });
+    });
 
     it('Excluir Movimentacao', () => {
         cy.route({
@@ -340,4 +340,53 @@ describe('Teste Funcional Seu Barriga', () => {
         //verificando se existe a conta
         cy.xpath("//table//td[contains(.,' + data.contaARemover + ')]").should('not.exist', data.contaARemover)
     });
+
+    it.only('Inserir Conta - Validando dados a serem enviados', () => {
+        const reqStub = cy.stub()
+        cy.route({
+            method: 'POST',
+            url: '/contas',
+            response: [
+                { id: 3, nome: "Conta de Teste", "visivel": true, "usuario_id": 25940 }
+            ],
+            /*segunda forma de fazer a validacao
+            onRequest: req=> {
+                console.log(req)
+                expect(req.request.body.nome).to.be.not.empty
+                expect(req.request.headers).to.be.have.property('Authorization')
+            }*/
+            onRequest: reqStub
+        }).as('SaveConta')
+        cy.acessarMenuConta()
+
+        cy.route({
+            method: 'GET',
+            url: '/contas',
+            response:
+                [
+                    { id: 1, nome: "Carteira", visivel: true, usuario_id: 25940 },
+                    { id: 2, nome: "Banco", visivel: true, usuario_id: 25940 },
+                    { id: 3, nome: "Conta de Teste", visivel: true, usuario_id: 25940 }
+                ]
+        }).as('ContasSave')
+
+        //preencher conta
+        //cy.informarNomeConta(data.contaInserida)
+        cy.informarNomeConta('{CONTROL}')
+
+        //primeira forma de fazer a validacao dos dados, segue abaixo
+        //cy.wait('@SaveConta').its('request.body.nome').should('not.be.empty')
+
+
+        //terceira forma de valicadao
+        cy.wait('@SaveConta').then(() =>{
+            console.log(reqStub.args[0][0])
+            expect(reqStub.args[0][0].request.body.nome).to.be.empty
+            expect(reqStub.args[0][0].request.headers).to.be.have.property('Authorization')
+        })
+        //assertion conta
+        cy.xpath(loc.MESSAGE).should('contain', data.contaMsgSucesso)
+    });
+
+
 })
